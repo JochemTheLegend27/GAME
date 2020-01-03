@@ -1,0 +1,292 @@
+<html id="html">
+
+<head>
+    <link href="games.css" rel="stylesheet" type="text/css">
+
+
+</head>
+<body>
+<ul id="delete1">
+    <li><a href="game.html">GAMES!!</a></li>
+</ul>
+
+
+<script>
+//hoe het blokje beweegt heb ik met behulp van een kleine online uitleg gedaan,
+//maar voor de rest heb ik alles op eigen kennis gedaan.
+
+//in de console (F12) kan je zien op welke locatie de coins worden geplaatst en bij welke stap het progamma is
+
+  var puntentot = 0;
+  var tijd = 60;
+var stoppen = false;
+
+setInterval(function(){
+    var kleur = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6);
+    document.getElementById("html").style.backgroundColor = kleur;
+    }, 1000*2);
+
+
+function start(){
+    var knop1 = document.getElementById('knop');
+    knop1.parentNode.removeChild(knop1);
+    console.log('stap 1');
+    uitlegknop();
+}
+
+
+function uitlegknop() {
+    console.log('stap 2');
+var Bgame = document.createElement("BUTTON");                 
+Bgame.innerHTML = "uitleg"; 
+Bgame.setAttribute('id', "knop");
+Bgame.addEventListener( 'click', console.log('stap 3'), startGame() );           
+
+}
+
+
+var speler;
+
+
+
+function startGame() {
+    console.log('stap 4');
+    speler = new component(35,35, "limegreen", 100, 120);
+    gamegebied.start();
+    document.getElementById("delete1").remove();
+   
+    document.getElementById("uitleg1").innerHTML = "<B>Movement:</B> met de pijltjes<br><B>Doel:</B> verzamel zo veel mogelijk muntjes in 60 seconden<br><br><B>BONUS:</B> elke keer wanneer je een muntje pakt krijg je 1 extra seconde";
+
+
+    timer();
+    coins1();
+    coins2();
+    coins3();
+}
+
+function timer() {
+    console.log('timer');
+
+
+    setInterval(function(){
+        console.log('timer (-1 seconde)');
+        if(tijd > 0){
+    tijd = tijd -1 ;
+    document.getElementById("timer").innerHTML = "Tijd over: " + tijd + ' seconden';
+        }else{
+            speler = delete component(35,35, "limegreen", 100, 120);
+        gamegebied.stop();
+        console.log('timer (60 seconden voorbij)');
+        document.getElementById("timer").innerHTML = "Goed gespeeld je hebt " + puntentot + ' punten gehaald<br> <ul id="delete1"><li><a href="game.html">Opnieuw proberen?!</a></li></ul>' ;
+        } 
+    }, 1000*1);
+
+
+
+}
+function coins1() {
+    
+    function doRandHTlocx(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(798);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            function doRandHTlocy(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(498);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            console.log('new coordinaat voor de munt');
+
+const xloc = doRandHTlocx();
+const yloc = doRandHTlocy();
+console.log('nieuw coordinaat: x: ' + xloc + ',y: ' + yloc);
+    coin1 = new component(15,15, "yellow", xloc, yloc);
+    
+
+}
+function coins2() {
+    
+    function doRandHTlocx(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(798);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            function doRandHTlocy(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(498);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            console.log('new coordinaat voor de munt');
+
+const xloc = doRandHTlocx();
+const yloc = doRandHTlocy();
+console.log('nieuw coordinaat: x: ' + xloc + ',y: ' + yloc);
+    coin2 = new component(15,15, "yellow", xloc, yloc);
+    
+
+}
+function coins3() {
+    
+    function doRandHTlocx(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(798);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            function doRandHTlocy(min, max) {
+              min = Math.ceil(1);
+              max = Math.floor(498);
+              return Math.floor(Math.random() * (max - min)) + min;
+            }
+            console.log('new coordinaat voor de munt');
+
+const xloc = doRandHTlocx();
+const yloc = doRandHTlocy();
+console.log('nieuw coordinaat: x: ' + xloc + ',y: ' + yloc);
+    coin3 = new component(15,15, "yellow", xloc, yloc);
+    
+
+}
+function punten() {
+    puntentot = puntentot + 1;
+    document.getElementById("punten").innerHTML = "Punten: " + puntentot;
+    console.log('aantal munten opgepakt');
+   console.log(puntentot);
+   tijd = tijd +1 ;
+    document.getElementById("timer").innerHTML = "<I>Tijd over: " + tijd + ' seconden</I>';
+    console.log('extra seconde')
+   
+}
+
+var gamegebied = {
+    //hier word het gebied waar de game zich afspeelt gemaakt
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 800;
+        this.canvas.height = 500;
+        this.context = this.canvas.getContext("2d");
+        
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updategamegebied, 20);
+        window.addEventListener('keydown', function (e) {
+      gamegebied.keys = (gamegebied.keys || []);
+      gamegebied.keys[e.keyCode] = true;
+    })
+    window.addEventListener('keyup', function (e) {
+      gamegebied.keys[e.keyCode] = false;
+    })
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height); 
+    },
+    stop : function() {
+    clearInterval(this.interval);
+  }
+
+}
+
+function component(width, height, color, x, y, type) { // alle onderdelen die een voorwerp in de canvas (gamegebied) bavat
+    this.type = type;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = gamegebied.context;
+
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    }    
+    this.crashWith = function(otherobj) { //hier word gekeken of de munt en de speler elkaar aanraken
+    var myleft = this.x;
+    var myright = this.x + (this.width);
+    var mytop = this.y;
+    var mybottom = this.y + (this.height);
+    var otherleft = otherobj.x;
+    var otherright = otherobj.x + (otherobj.width);
+    var othertop = otherobj.y;
+    var otherbottom = otherobj.y + (otherobj.height);
+    var crash = true;
+    if ((mybottom < othertop) ||
+    (mytop > otherbottom) ||
+    (myright < otherleft) ||
+    (myleft > otherright)) {
+      crash = false;
+    }
+    return crash;
+  }
+}
+
+function updategamegebied() { // hier word het gamegebied steeds bijgewerkt
+    if (speler.crashWith(coin2)) {
+        console.log('coin2 en speler elkaar geraakt')
+        coin2 = delete component();
+        punten();
+        coins2();
+    }
+    if (speler.crashWith(coin3)) {
+        console.log('coin3 en speler elkaar geraakt')
+        coin3 = delete component();
+        punten();
+        coins3();
+    }
+    if (speler.crashWith(coin1)) {
+        console.log('coin1 en speler elkaar geraakt')
+        coin1 = delete component();
+        punten();
+        coins1();
+  } else {
+    gamegebied.clear();
+    coin1.update();
+    coin2.update();
+    coin3.update();
+    speler.speedX = 0;
+  speler.speedY = 0;
+  
+  if (gamegebied.keys && gamegebied.keys[37]) {speler.speedX = -3; }
+  if (gamegebied.keys && gamegebied.keys[39]) {speler.speedX = 3; }
+  if (gamegebied.keys && gamegebied.keys[38]) {speler.speedY = -3; }
+  if (gamegebied.keys && gamegebied.keys[40]) {speler.speedY = 3; }
+
+    speler.newPos();    
+    speler.update();
+  }
+}
+
+function moveup() {
+    speler.speedY -= 1; 
+}
+
+function movedown() {
+    speler.speedY += 1; 
+}
+
+function moveleft() {
+    speler.speedX -= 1; 
+}
+
+function moveright() {
+    speler.speedX += 1; 
+}
+function stopMove() {
+        speler.speedX = 0;
+        speler.speedY = 0;
+      }
+</script>
+
+
+<button id="knop" onclick = "start()" >Nieuwe game</button>
+<p id="uitleg1"><br></p>
+<p id="uitleg2"></p>
+
+<p id="punten"></p>
+<p id="timer"></p>
+
+    </body>
+</html>
